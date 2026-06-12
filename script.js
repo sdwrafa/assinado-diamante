@@ -1,10 +1,13 @@
 const intro = document.querySelector("#intro");
 const surprise = document.querySelector("#surprise");
+const finale = document.querySelector("#finale");
 const surpriseButton = document.querySelector("#surpriseButton");
-const resetButton = document.querySelector("#resetButton");
+const continueButton = document.querySelector("#continueButton");
 
 function showSurprise() {
   intro.hidden = true;
+  finale.hidden = true;
+  finale.classList.remove("reveal");
   surprise.hidden = false;
   surprise.classList.remove("reveal");
 
@@ -13,12 +16,16 @@ function showSurprise() {
   });
 }
 
-function resetSurprise() {
+function showFinale() {
   surprise.hidden = true;
   surprise.classList.remove("reveal");
-  intro.hidden = false;
-  surpriseButton.focus();
+  finale.hidden = false;
+  finale.classList.remove("reveal");
+
+  requestAnimationFrame(() => {
+    finale.classList.add("reveal");
+  });
 }
 
 surpriseButton.addEventListener("click", showSurprise);
-resetButton.addEventListener("click", resetSurprise);
+continueButton.addEventListener("click", showFinale);
