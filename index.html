@@ -5,6 +5,363 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Uma surpresa para você</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+      .bouquet {
+        height: 560px;
+        margin: 0 auto;
+        max-width: 560px;
+        position: relative;
+        width: 100%;
+      }
+
+      .bouquet-glow {
+        background:
+          radial-gradient(circle, rgba(255, 224, 122, 0.34), rgba(224, 27, 57, 0.12) 42%, rgba(255, 224, 122, 0) 68%);
+        height: 430px;
+        left: 50%;
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        transform: translateX(-50%) scale(0.7);
+        width: 430px;
+      }
+
+      .reveal .bouquet-glow {
+        animation: bouquetGlow 1.4s ease 500ms both;
+      }
+
+      .bouquet-stem {
+        --stem-height: 310px;
+        --stem-rotate: 0deg;
+        background: linear-gradient(90deg, var(--green-700), var(--green-500), var(--green-700));
+        border-radius: 999px;
+        bottom: 58px;
+        height: var(--stem-height);
+        left: 50%;
+        position: absolute;
+        transform: translateX(-50%) rotate(var(--stem-rotate)) scaleY(0);
+        transform-origin: bottom center;
+        width: 13px;
+      }
+
+      .stem-a { --stem-height: 345px; --stem-rotate: 0deg; }
+      .stem-b { --stem-height: 355px; --stem-rotate: -27deg; }
+      .stem-c { --stem-height: 355px; --stem-rotate: 27deg; }
+      .stem-d { --stem-height: 385px; --stem-rotate: -14deg; }
+      .stem-e { --stem-height: 385px; --stem-rotate: 14deg; }
+      .stem-f { --stem-height: 310px; --stem-rotate: -41deg; }
+      .stem-g { --stem-height: 310px; --stem-rotate: 41deg; }
+
+      .reveal .bouquet-stem {
+        animation: bouquetStemGrow 980ms cubic-bezier(0.2, 0.9, 0.24, 1) 180ms both;
+      }
+
+      .bouquet-leaf {
+        background: linear-gradient(135deg, var(--green-500), var(--green-700));
+        border-radius: 100% 0 100% 0;
+        height: 72px;
+        opacity: 0;
+        position: absolute;
+        top: 292px;
+        width: 106px;
+      }
+
+      .bouquet-leaf-left {
+        left: 94px;
+        transform: rotate(-35deg) scale(0.2);
+        transform-origin: 100% 100%;
+      }
+
+      .bouquet-leaf-right {
+        right: 94px;
+        transform: rotate(125deg) scale(0.2);
+        transform-origin: 0 100%;
+      }
+
+      .reveal .bouquet-leaf-left {
+        animation: bouquetLeafLeft 720ms ease 880ms both;
+      }
+
+      .reveal .bouquet-leaf-right {
+        animation: bouquetLeafRight 720ms ease 980ms both;
+      }
+
+      .bouquet-wrap {
+        background:
+          linear-gradient(135deg, rgba(224, 27, 57, 0.96), rgba(118, 0, 19, 0.98));
+        border: 2px solid var(--gold-500);
+        border-radius: 16px 16px 28px 28px;
+        bottom: 30px;
+        box-shadow: 0 18px 30px rgba(0, 0, 0, 0.42);
+        height: 62px;
+        left: 50%;
+        opacity: 0;
+        position: absolute;
+        transform: translateX(-50%) scale(0.65);
+        width: 162px;
+      }
+
+      .bouquet-wrap::before {
+        background: linear-gradient(90deg, transparent, var(--gold-300), transparent);
+        content: "";
+        height: 8px;
+        left: 12px;
+        position: absolute;
+        right: 12px;
+        top: 24px;
+      }
+
+      .reveal .bouquet-wrap {
+        animation: bouquetWrapPop 620ms ease 1.1s both;
+      }
+
+      .bouquet-flower {
+        --flower-x: 0px;
+        --flower-y: 80px;
+        --flower-size: 150px;
+        --flower-tilt: 0deg;
+        --flower-delay: 1.1s;
+        height: var(--flower-size);
+        left: calc(50% + var(--flower-x));
+        opacity: 0;
+        position: absolute;
+        top: var(--flower-y);
+        transform: translate(-50%, 70px) scale(0.18) rotate(var(--flower-tilt));
+        width: var(--flower-size);
+      }
+
+      .bouquet-flower-main {
+        --flower-size: 164px;
+        --flower-x: 0px;
+        --flower-y: 76px;
+        --flower-delay: 1.08s;
+        z-index: 7;
+      }
+
+      .bouquet-flower-left {
+        --flower-size: 142px;
+        --flower-x: -146px;
+        --flower-y: 140px;
+        --flower-tilt: -18deg;
+        --flower-delay: 1.18s;
+        z-index: 5;
+      }
+
+      .bouquet-flower-right {
+        --flower-size: 142px;
+        --flower-x: 146px;
+        --flower-y: 140px;
+        --flower-tilt: 18deg;
+        --flower-delay: 1.26s;
+        z-index: 5;
+      }
+
+      .bouquet-flower-back-left {
+        --flower-size: 126px;
+        --flower-x: -108px;
+        --flower-y: 22px;
+        --flower-tilt: -22deg;
+        --flower-delay: 1.34s;
+        z-index: 2;
+      }
+
+      .bouquet-flower-back-right {
+        --flower-size: 126px;
+        --flower-x: 108px;
+        --flower-y: 22px;
+        --flower-tilt: 22deg;
+        --flower-delay: 1.42s;
+        z-index: 2;
+      }
+
+      .bouquet-flower-low-left {
+        --flower-size: 118px;
+        --flower-x: -76px;
+        --flower-y: 218px;
+        --flower-tilt: -10deg;
+        --flower-delay: 1.5s;
+        z-index: 4;
+      }
+
+      .bouquet-flower-low-right {
+        --flower-size: 118px;
+        --flower-x: 76px;
+        --flower-y: 218px;
+        --flower-tilt: 10deg;
+        --flower-delay: 1.58s;
+        z-index: 4;
+      }
+
+      .reveal .bouquet-flower {
+        animation: bouquetBloom 820ms cubic-bezier(0.2, 1.2, 0.34, 1) var(--flower-delay) both;
+      }
+
+      .bouquet-flower-head {
+        background:
+          repeating-conic-gradient(
+            from 4deg,
+            var(--yellow-200) 0deg 8deg,
+            var(--gold-500) 8deg 17deg,
+            transparent 17deg 22.5deg
+          );
+        border-radius: 50%;
+        display: block;
+        filter: drop-shadow(0 14px 18px rgba(0, 0, 0, 0.36));
+        height: 100%;
+        position: relative;
+        width: 100%;
+      }
+
+      .bouquet-flower-head::after {
+        background:
+          radial-gradient(circle at 36% 34%, #9d5b2a 0 8px, transparent 9px),
+          radial-gradient(circle at 62% 43%, #30150c 0 7px, transparent 8px),
+          radial-gradient(circle at 44% 65%, #30150c 0 6px, transparent 7px),
+          radial-gradient(circle, var(--brown-600), var(--brown-800));
+        border: 5px solid #5a2b15;
+        border-radius: 50%;
+        box-shadow: inset 0 0 18px rgba(255, 224, 122, 0.16);
+        content: "";
+        inset: 28%;
+        position: absolute;
+      }
+
+      @keyframes bouquetStemGrow {
+        to {
+          transform: translateX(-50%) rotate(var(--stem-rotate)) scaleY(1);
+        }
+      }
+
+      @keyframes bouquetBloom {
+        0% {
+          opacity: 0;
+          transform: translate(-50%, 70px) scale(0.18) rotate(var(--flower-tilt));
+        }
+        74% {
+          opacity: 1;
+          transform: translate(-50%, 0) scale(1.08) rotate(var(--flower-tilt));
+        }
+        100% {
+          opacity: 1;
+          transform: translate(-50%, 0) scale(1) rotate(var(--flower-tilt));
+        }
+      }
+
+      @keyframes bouquetGlow {
+        to {
+          opacity: 1;
+          transform: translateX(-50%) scale(1);
+        }
+      }
+
+      @keyframes bouquetLeafLeft {
+        to {
+          opacity: 1;
+          transform: rotate(-35deg) scale(1);
+        }
+      }
+
+      @keyframes bouquetLeafRight {
+        to {
+          opacity: 1;
+          transform: rotate(125deg) scale(1);
+        }
+      }
+
+      @keyframes bouquetWrapPop {
+        to {
+          opacity: 1;
+          transform: translateX(-50%) scale(1);
+        }
+      }
+
+      @media (max-width: 760px) {
+        .bouquet {
+          height: 410px;
+          max-width: 330px;
+        }
+
+        .bouquet-glow {
+          height: 285px;
+          top: 24px;
+          width: 285px;
+        }
+
+        .bouquet-stem {
+          bottom: 46px;
+          width: 10px;
+        }
+
+        .stem-a { --stem-height: 245px; }
+        .stem-b { --stem-height: 244px; --stem-rotate: -26deg; }
+        .stem-c { --stem-height: 244px; --stem-rotate: 26deg; }
+        .stem-d { --stem-height: 270px; --stem-rotate: -12deg; }
+        .stem-e { --stem-height: 270px; --stem-rotate: 12deg; }
+        .stem-f { --stem-height: 210px; --stem-rotate: -38deg; }
+        .stem-g { --stem-height: 210px; --stem-rotate: 38deg; }
+
+        .bouquet-leaf {
+          height: 54px;
+          top: 238px;
+          width: 82px;
+        }
+
+        .bouquet-leaf-left {
+          left: 60px;
+        }
+
+        .bouquet-leaf-right {
+          right: 60px;
+        }
+
+        .bouquet-wrap {
+          bottom: 24px;
+          height: 50px;
+          width: 132px;
+        }
+
+        .bouquet-flower-main {
+          --flower-size: 118px;
+          --flower-y: 88px;
+        }
+
+        .bouquet-flower-left {
+          --flower-size: 94px;
+          --flower-x: -106px;
+          --flower-y: 138px;
+        }
+
+        .bouquet-flower-right {
+          --flower-size: 94px;
+          --flower-x: 106px;
+          --flower-y: 138px;
+        }
+
+        .bouquet-flower-back-left {
+          --flower-size: 82px;
+          --flower-x: -78px;
+          --flower-y: 52px;
+        }
+
+        .bouquet-flower-back-right {
+          --flower-size: 82px;
+          --flower-x: 78px;
+          --flower-y: 52px;
+        }
+
+        .bouquet-flower-low-left {
+          --flower-size: 84px;
+          --flower-x: -56px;
+          --flower-y: 216px;
+        }
+
+        .bouquet-flower-low-right {
+          --flower-size: 84px;
+          --flower-x: 56px;
+          --flower-y: 216px;
+        }
+      }
+    </style>
   </head>
   <body>
     <main class="stage" aria-live="polite">
@@ -17,33 +374,39 @@
       </section>
 
       <section class="surprise" id="surprise" hidden>
-        <div class="sunflower" aria-hidden="true">
-          <div class="glow"></div>
-          <div class="stem">
-            <div class="leaf leaf-left"></div>
-            <div class="leaf leaf-right"></div>
+        <div class="bouquet" aria-hidden="true">
+          <div class="bouquet-glow"></div>
+          <span class="bouquet-stem stem-a"></span>
+          <span class="bouquet-stem stem-b"></span>
+          <span class="bouquet-stem stem-c"></span>
+          <span class="bouquet-stem stem-d"></span>
+          <span class="bouquet-stem stem-e"></span>
+          <span class="bouquet-stem stem-f"></span>
+          <span class="bouquet-stem stem-g"></span>
+          <span class="bouquet-leaf bouquet-leaf-left"></span>
+          <span class="bouquet-leaf bouquet-leaf-right"></span>
+          <div class="bouquet-flower bouquet-flower-back-left">
+            <span class="bouquet-flower-head"></span>
           </div>
-          <div class="bloom">
-            <span class="petal petal-1"></span>
-            <span class="petal petal-2"></span>
-            <span class="petal petal-3"></span>
-            <span class="petal petal-4"></span>
-            <span class="petal petal-5"></span>
-            <span class="petal petal-6"></span>
-            <span class="petal petal-7"></span>
-            <span class="petal petal-8"></span>
-            <span class="petal petal-9"></span>
-            <span class="petal petal-10"></span>
-            <span class="petal petal-11"></span>
-            <span class="petal petal-12"></span>
-            <span class="petal petal-13"></span>
-            <span class="petal petal-14"></span>
-            <span class="petal petal-15"></span>
-            <span class="petal petal-16"></span>
-            <div class="center">
-              <span></span>
-            </div>
+          <div class="bouquet-flower bouquet-flower-back-right">
+            <span class="bouquet-flower-head"></span>
           </div>
+          <div class="bouquet-flower bouquet-flower-left">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-right">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-low-left">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-low-right">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-main">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-wrap"></div>
         </div>
 
         <div class="message">
@@ -60,33 +423,39 @@
       </section>
 
       <section class="surprise finale" id="finale" hidden>
-        <div class="sunflower" aria-hidden="true">
-          <div class="glow"></div>
-          <div class="stem">
-            <div class="leaf leaf-left"></div>
-            <div class="leaf leaf-right"></div>
+        <div class="bouquet" aria-hidden="true">
+          <div class="bouquet-glow"></div>
+          <span class="bouquet-stem stem-a"></span>
+          <span class="bouquet-stem stem-b"></span>
+          <span class="bouquet-stem stem-c"></span>
+          <span class="bouquet-stem stem-d"></span>
+          <span class="bouquet-stem stem-e"></span>
+          <span class="bouquet-stem stem-f"></span>
+          <span class="bouquet-stem stem-g"></span>
+          <span class="bouquet-leaf bouquet-leaf-left"></span>
+          <span class="bouquet-leaf bouquet-leaf-right"></span>
+          <div class="bouquet-flower bouquet-flower-back-left">
+            <span class="bouquet-flower-head"></span>
           </div>
-          <div class="bloom">
-            <span class="petal petal-1"></span>
-            <span class="petal petal-2"></span>
-            <span class="petal petal-3"></span>
-            <span class="petal petal-4"></span>
-            <span class="petal petal-5"></span>
-            <span class="petal petal-6"></span>
-            <span class="petal petal-7"></span>
-            <span class="petal petal-8"></span>
-            <span class="petal petal-9"></span>
-            <span class="petal petal-10"></span>
-            <span class="petal petal-11"></span>
-            <span class="petal petal-12"></span>
-            <span class="petal petal-13"></span>
-            <span class="petal petal-14"></span>
-            <span class="petal petal-15"></span>
-            <span class="petal petal-16"></span>
-            <div class="center">
-              <span></span>
-            </div>
+          <div class="bouquet-flower bouquet-flower-back-right">
+            <span class="bouquet-flower-head"></span>
           </div>
+          <div class="bouquet-flower bouquet-flower-left">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-right">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-low-left">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-low-right">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-flower bouquet-flower-main">
+            <span class="bouquet-flower-head"></span>
+          </div>
+          <div class="bouquet-wrap"></div>
         </div>
 
         <div class="message">
